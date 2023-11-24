@@ -42,7 +42,23 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+   #logo {
+            max-width: 100px; 
+            height: auto;
+            vertical-align: middle;
+            margin-left:30px;
+			
+        }
 
+        #restaurant-info {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #restaurant-name {
+            font-size: 1.5em; 
+			
+        }
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;-
 }
