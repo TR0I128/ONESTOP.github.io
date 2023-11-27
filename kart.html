@@ -8,32 +8,45 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
-            height: 100vh;
-            background-color: #f4f4f4;
+            background-image: url('images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
-        .product-container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            width: 300px;
+        .container {
             text-align: center;
+            width: 200px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
         .product-name {
-            font-size: 20px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: auto;
         }
 
         .product-price {
             color: #4caf50;
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 16px;
+            margin-bottom: auto;
         }
 
         .add-to-cart-btn {
@@ -45,32 +58,137 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            margin-top: auto;
         }
 
         .add-to-cart-btn:hover {
             background-color: #45a049;
         }
+
+        .cart-container {
+            text-align: center;
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cart-heading {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .total-price {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .pay-now-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .pay-now-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
-    <div class="product-container">
-        <div class="product-name">Product Name</div>
-        <div class="product-price">$19.99</div>
-        <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+
+    <!-- Products -->
+    <div class="container">
+        <!-- Product 1 -->
+        <img class="product-image" src="images/f1.png" alt="Veg N Cheese Pizza">
+        <div class="product-name">Veg N Cheese Pizza</div>
+        <div class="product-price">₹249</div>
+        <button class="add-to-cart-btn" onclick="addToCart('Veg N Cheese Pizza', 249)">Add to Cart</button>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="container">
+        <img class="product-image" src="images/f4.png" alt="Peppy Pasta">
+        <div class="product-name">Peppy Pasta</div>
+        <div class="product-price">₹199</div>
+        <button class="add-to-cart-btn" onclick="addToCart('Peppy Pasta', 199)">Add to Cart</button>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="container">
+        <img class="product-image" src="images/g4.png" alt="Choco Vanilla Crush">
+        <div class="product-name">Choco Vanilla Crush</div>
+        <div class="product-price">₹199</div>
+        <button class="add-to-cart-btn" onclick="addToCart('Choco Vanilla Crush', 199)">Add to Cart</button>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="container">
+        <img class="product-image" src="images/dr5.png" alt="Chinotto">
+        <div class="product-name">Chinotto</div>
+        <div class="product-price">₹129</div>
+        <button class="add-to-cart-btn" onclick="addToCart('Chinotto', 129)">Add to Cart</button>
+    </div>
+
+    <!-- Product 5 -->
+    <div class="container">
+        <img class="product-image" src="images/dr8.png" alt="Tè Freddo">
+        <div class="product-name">Tè Freddo</div>
+        <div class="product-price">₹149</div>
+        <button class="add-to-cart-btn" onclick="addToCart('Tè Freddo', 149)">Add to Cart</button>
+    </div>
+
+    <!-- Cart -->
+    <div class="cart-container">
+        <div class="cart-heading">Your Cart</div>
+        <div class="total-price" id="totalPrice"></div>
+        <button class="pay-now-btn" onclick="payNow()">Pay Now</button>
     </div>
 
     <script>
-        function addToCart() {
+        function addToCart(name, price) {
             // Simulate adding the product to the cart
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const product = {
-                name: 'Product Name',
-                price: 19.99,
+                name: name,
+                price: price,
             };
             cart.push(product);
             localStorage.setItem('cart', JSON.stringify(cart));
 
-            alert('Product added to cart!');
+            updateCartDisplay();
+            alert(`${name} added to cart!`);
+        }
+
+        function updateCartDisplay() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Display total price
+            const totalPriceElement = document.getElementById('totalPrice');
+           const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
+            totalPriceElement.textContent = `Total: ₹${925}`;
+        }
+
+        // Update cart display on page load
+        window.onload = updateCartDisplay;
+
+        // Function to simulate payment
+        function payNow() {
+            alert('Payment successful! Thank you for your purchase.');
+            // You can add additional logic here for actual payment processing.
         }
     </script>
 </body>
